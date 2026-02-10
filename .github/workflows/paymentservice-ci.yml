@@ -1,0 +1,39 @@
+name: Payment Service CI
+
+on:
+  push:
+    paths:
+      - 'src/paymentservice.yml/**' # Only trigger if files in this folder change
+  workflow_dispatch: # Allows you to run it manually (Requirement #5)
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t iamay0bami/paymentservice.yml:latest ./src/paymentservice.yml
+
+      - name: Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'iamay0bami/paymentservice.yml:latest'
+          format: 'table'
+          exit-code: '1' # Fails the build if vulnerabilities are found
+          severity: 'CRITICAL,HIGH'
+
+      - name: Push to Docker Hub
+        run: |
+          docker push iamay0bami/paymentservice.yml:latest
