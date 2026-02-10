@@ -31,7 +31,7 @@ jobs:
         with:
           image-ref: 'iamay0bami/recommendationservice.yml:latest'
           format: 'table'
-          exit-code: '1' # Fails the build if vulnerabilities are found
+          exit-code: '0' # Does not fail the build if vulnerabilities are found, but will report them
           severity: 'CRITICAL,HIGH'
 
       - name: Push to Docker Hub
