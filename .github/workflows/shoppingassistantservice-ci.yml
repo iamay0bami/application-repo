@@ -3,7 +3,7 @@ name: Shopping Assistant Service CI
 on:
   push:
     paths:
-      - 'src/shoppingassistantservice.yml/**' # Only trigger if files in this folder change
+      - 'src/shoppingassistantservice/**' # Only trigger if files in this folder change
   workflow_dispatch: # Allows you to run it manually (Requirement #5)
 
 jobs:
@@ -24,16 +24,16 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t iamay0bami/shoppingassistantservice.yml:latest ./src/shoppingassistantservice.yml
+          docker build -t iamay0bami/shoppingassistantservice:latest ./src/shoppingassistantservice
 
       - name: Trivy Vulnerability Scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'iamay0bami/shoppingassistantservice.yml:latest'
+          image-ref: 'iamay0bami/shoppingassistantservice:latest'
           format: 'table'
           exit-code: '0' # Does not fail the build if vulnerabilities are found, but will report them
           severity: 'CRITICAL,HIGH'
 
       - name: Push to Docker Hub
         run: |
-          docker push iamay0bami/shoppingassistantservice.yml:latest
+          docker push iamay0bami/shoppingassistantservice:latest
