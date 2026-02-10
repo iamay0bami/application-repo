@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t iamay0bami/productcatalogservice.yml:latest ./src/productcatalogservice.yml
+          docker build -t iamay0bami/productcatalogservice.yml:latest ./src/productcatalogservice
 
       - name: Trivy Vulnerability Scan
         uses: aquasecurity/trivy-action@master
