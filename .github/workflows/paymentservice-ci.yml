@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t iamay0bami/paymentservice.yml:latest ./src/paymentservice.yml
+          docker build -t iamay0bami/paymentservice.yml:latest ./src/paymentservice
 
       - name: Trivy Vulnerability Scan
         uses: aquasecurity/trivy-action@master
